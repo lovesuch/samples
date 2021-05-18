@@ -1,0 +1,82 @@
+﻿{
+  "Routes": [
+    {
+      "ServiceName": "UserService",
+      "DownstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/{path}",
+      "UpstreamPathTemplate": "/user/{path}",
+      "UpstreamHttpMethod": ["Get", "Post"],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "UseServiceDiscovery": true,
+      "RateLimitOptions": {
+        "ClientWhitelist": ["admin"],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 15,
+        "Limit": 2
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 15000,
+        "TimeoutValue": 5000
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": ""
+      }
+      //,
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayKey",
+      //  "AllowedScopes": [ "UserService" ]
+      //}
+    },
+    {
+      "ServiceName": "ProductService",
+      "DownstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/{path}",
+      "UpstreamPathTemplate": "/product/{path}",
+      "UpstreamHttpMethod": ["Get", "Post"],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "UseServiceDiscovery": true,
+      "RateLimitOptions": {
+        "ClientWhitelist": ["admin"],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 15,
+        "Limit": 2
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 15000,
+        "TimeoutValue": 5000
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": ""
+      }
+      //,
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayKey",
+      //  "AllowedScopes": [ "ProductService" ]
+      //}
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Scheme": "http",
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    },
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "Too many requests",
+      "HttpStatusCode": 529,
+      "ClientIdHeader": "client_id"
+    }
+  }
+}
